@@ -107,7 +107,7 @@ include_directories(include)
 
 set(node_plugins "")
 
-set(SOURCES 
+set(SOURCES
     src/realsense_node_factory.cpp
     src/base_realsense_node.cpp
     src/t265_realsense_node.cpp
@@ -129,6 +129,10 @@ elseif("$ENV{ROS_DISTRO}" STREQUAL "foxy")
   message(STATUS "Build for ROS2 Dashing")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DFOXY")
   set(SOURCES "${SOURCES}" src/ros_param_backend_foxy.cpp)
+elseif("$ENV{ROS_DISTRO}" STREQUAL "rolling")
+  message(STATUS "Build for ROS2 rolling")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DFOXY")
+  set(SOURCES "${SOURCES}" src/ros_param_backend_foxy.cpp)
 else()
   message(FATAL_ERROR "Unsupported ROS Distribution: " "$ENV{ROS_DISTRO}")
 endif()
@@ -147,7 +151,7 @@ target_link_libraries(${PROJECT_NAME}
     ${realsense2_LIBRARY}
     )
 
-set(dependencies 
+set(dependencies
   cv_bridge
   image_transport
   rclcpp
@@ -184,7 +188,7 @@ install(
 )
 
 # Install launch files
-install(DIRECTORY 
+install(DIRECTORY
     launch
     config
     DESTINATION share/${PROJECT_NAME}
